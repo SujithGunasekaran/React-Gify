@@ -1,0 +1,13 @@
+* {
+  box-sizing: border-box;
+  font-family: "Open Sans", sans-serif;
+  margin: 0px;
+}
+
+.header-title {
+  font-size: 25px;
+  font-weight: 700;
+  padding: 15px 0px;
+  text-align: center;
+  text-transform: uppercase;
+}
