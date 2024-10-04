@@ -8,6 +8,7 @@ export interface ImageObject {
 export interface GifObject {
     id: string,
     title: string,
+    slug: string,
     images: {
         original: ImageObject,
         fixed_width: ImageObject,

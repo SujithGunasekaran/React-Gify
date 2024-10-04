@@ -71,18 +71,113 @@
 .gif-list-container {
     display: flex;
     gap: 0.5rem;
-    justify-content: center;
     align-items: center;
     flex-wrap: wrap;
     margin: 1em 0;
 }
 
+.gif-list-loaded-container {
+    margin: 15px 0px;
+    display: grid;
+    gap: 5px;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
 .video-player-wrapper {
     flex: 0.5 1 auto;
+    z-index: 1;
+    position: relative;
+}
+
+.video-controller-container {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    display: none;
+}
+
+.video-player-wrapper:hover {
+    z-index: 10;
+}
+
+.video-player-wrapper:hover .video-controller-container {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 5px;
 }
 
 .video {
     height: 25vh;
     width: 100%;
     object-fit: cover;
+    box-sizing: border-box;
+    transition: 0.6s all ease-in-out;
+}
+
+.video-controller-icon-wrapper {
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    background: black;
+    cursor: pointer;
+}
+
+.video-controller-icon-wrapper .icon {
+    color: white;
+    width: 11px;
+    height: 11px;
+}
+
+.gif-load-more-btn {
+    margin: 15px auto;
+    display: block;
+    border: none;
+    color: white;
+    font-size: 15px;
+    font-weight: 600;
+    border-radius: 6px;
+    padding: 10px 15px;
+    cursor: pointer;
+    background-color: rgb(40, 39, 39);
+}
+
+.gif-load-more-btn:disabled {
+    cursor: not-allowed;
+    pointer-events: none;
+    background-color: grey;
+}
+
+.skeleton-box {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    background-color: #cbcbcb;
+}
+
+.skeleton-box.video {
+    width: 100%;
+    height: 100%;
+}
+
+.skeleton-box::after {
+    display: block;
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    transform: translateX(-100%);
+    background: linear-gradient(90deg, transparent, rgba(141, 139, 139, 0.2), transparent);
+    animation: loading 0.8s infinite;
+}
+
+@keyframes loading {
+    100% {
+        transform: translateX(100%);
+    }
 }
