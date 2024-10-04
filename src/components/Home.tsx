@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import Tabs from './Tab';
-import HomeSearch from './HomeSearch';
+import GifHome from './GifHome';
 
 const Home: FC = () => {
 
@@ -13,24 +13,18 @@ const Home: FC = () => {
                     <Tabs.Tab index={3}>Random</Tabs.Tab>
                 </Tabs.TabList>
                 <Tabs.TabPanel index={1}>
-                    <HomeSearch
-                        isSearchEnabled={true}
-                        isTrending={false}
-                        isRandom={false}
+                    <GifHome
+                        pageType='search'
                     />
                 </Tabs.TabPanel>
                 <Tabs.TabPanel index={2}>
-                    <HomeSearch
-                        isSearchEnabled={false}
-                        isTrending={true}
-                        isRandom={false}
+                    <GifHome
+                        pageType='trending'
                     />
                 </Tabs.TabPanel>
                 <Tabs.TabPanel index={3}>
-                    <HomeSearch
-                        isSearchEnabled={false}
-                        isTrending={false}
-                        isRandom={true}
+                    <GifHome
+                        pageType='random'
                     />
                 </Tabs.TabPanel>
             </Tabs>
