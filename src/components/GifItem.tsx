@@ -1,5 +1,6 @@
 import { FC, useState, useRef } from 'react';
 import { FaPlay, FaPause, FaDownload, FaSpinner } from "react-icons/fa";
+import { downloadFile } from '../utils';
 import { ImageObject } from '../types';
 
 interface GifItemProps {
@@ -33,29 +34,18 @@ const GifItem: FC<GifItemProps> = (props) => {
 
     const downloadGif = async () => {
         if (isDownloading) return;
-        setIsDownloading(true);
-        const gifUrl = fixedImage.url;
-        const response = await fetch(gifUrl);
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-
-        const link = document.createElement('a');
-        link.href = url;
-        link.setAttribute('download', 'funGif.gif');
-        document.body.appendChild(link);
-        link.click();
-        link?.parentNode?.removeChild(link);
-        setIsDownloading(false);
+        try {
+            setIsDownloading(true);
+            await downloadFile(fixedImage.url);
+        } catch (error) {
+            console.log('error while downloading the gif', error);
+        } finally {
+            setIsDownloading(false);
+        }
     }
 
     return (
         <div className='video-player-wrapper'>
-            {/* {
-                isLoading &&
-                <div style={{ width: `${fixedImage.width}px`, height: `25vh` }}>
-                    <div className='skeleton-box video'></div>
-                </div>
-            } */}
             <video
                 ref={videoRef}
                 width={fixedImage.width}

@@ -4,18 +4,17 @@ import axios from 'axios';
 import SearchInput from './SearchInput';
 import GifList from './GifList';
 import GifGridLoader from './GifGridLoader';
-import { GIF_LIMIT } from '../constants';
+import { getGifUrl } from '../utils';
+import { GIF_LIMIT, GRID_CARD_LOADER } from '../constants';
 
 interface HomeSearchProps {
-    isSearchEnabled: boolean,
-    isTrending: boolean,
-    isRandom: boolean,
+    pageType: 'search' | 'trending' | 'random',
 }
 
 const HomeSearch: FC<HomeSearchProps> = (props) => {
 
     // props
-    const { isSearchEnabled, isTrending, isRandom } = props;
+    const { pageType } = props;
 
     // state
     const [gifs, setGifs] = useState<Array<any>>([]);
@@ -28,16 +27,9 @@ const HomeSearch: FC<HomeSearchProps> = (props) => {
         try {
             setIsLoading(true);
             const offset = (currentPage * GIF_LIMIT) + 1;
-            let url = '';
-            if (isTrending) {
-                url = `https://api.giphy.com/v1/gifs/trending?api_key=KtnqluxUOE5fGEzAuzGp2xoNAYI3vq9k&limit=${GIF_LIMIT}&offset=${offset}&bundle=clips_grid_picker`;
-            } else if (isSearchEnabled) {
-                url = `https://api.giphy.com/v1/gifs/search?api_key=KtnqluxUOE5fGEzAuzGp2xoNAYI3vq9k&q=${searchText}&limit=${GIF_LIMIT}&offset=${offset}&bundle=clips_grid_picker`;
-            } else {
-                url = 'https://api.giphy.com/v1/gifs/random?api_key=KtnqluxUOE5fGEzAuzGp2xoNAYI3vq9k'
-            }
+            const url = getGifUrl(pageType, { searchText, offset });
             const response = await axios.get(url);
-            if (response.data && (isSearchEnabled || isTrending)) {
+            if (response.data && (pageType !== 'random')) {
                 const { data = [], pagination = {} } = response.data;
                 const totalResultCount = pagination.count + pagination.offset;
                 setGifs((prevState) => [
@@ -72,15 +64,16 @@ const HomeSearch: FC<HomeSearchProps> = (props) => {
     }, [searchText])
 
     useEffect(() => {
-        if (isTrending || isRandom) {
+        if (pageType !== 'search') {
             searchGify();
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     return (
         <>
             {
-                isSearchEnabled &&
+                pageType === 'search' &&
                 <SearchInput
                     updateSearchText={updateSearchText}
                 />
@@ -96,7 +89,9 @@ const HomeSearch: FC<HomeSearchProps> = (props) => {
             {
                 isLoading &&
                 <div className='gif-list-loaded-container'>
-                    <GifGridLoader />
+                    <GifGridLoader
+                        loaderCount={GRID_CARD_LOADER[pageType]}
+                    />
                 </div>
             }
             {

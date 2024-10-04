@@ -1,10 +1,14 @@
 import { FC } from 'react';
 
-const GifGridLoader: FC = () => {
+interface GifGridLoaderProps {
+    loaderCount: number
+};
+
+const GifGridLoader: FC<GifGridLoaderProps> = ({ loaderCount }) => {
     return (
         <>
             {
-                new Array(10).fill(0).map((_, index) => (
+                new Array(loaderCount).fill(0).map((_, index) => (
                     <div key={index} className='skeleton-box'></div>
                 ))
             }
