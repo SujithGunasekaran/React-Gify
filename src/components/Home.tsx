@@ -1,8 +1,6 @@
 import { FC } from 'react';
 import Tabs from './Tab';
 import HomeSearch from './HomeSearch';
-import Trending from './TrendingPage';
-import Random from './Random';
 
 const Home: FC = () => {
 
@@ -15,13 +13,25 @@ const Home: FC = () => {
                     <Tabs.Tab index={3}>Random</Tabs.Tab>
                 </Tabs.TabList>
                 <Tabs.TabPanel index={1}>
-                    <HomeSearch />
+                    <HomeSearch
+                        isSearchEnabled={true}
+                        isTrending={false}
+                        isRandom={false}
+                    />
                 </Tabs.TabPanel>
                 <Tabs.TabPanel index={2}>
-                    <Trending />
+                    <HomeSearch
+                        isSearchEnabled={false}
+                        isTrending={true}
+                        isRandom={false}
+                    />
                 </Tabs.TabPanel>
                 <Tabs.TabPanel index={3}>
-                    <Random />
+                    <HomeSearch
+                        isSearchEnabled={false}
+                        isTrending={false}
+                        isRandom={true}
+                    />
                 </Tabs.TabPanel>
             </Tabs>
         </div>

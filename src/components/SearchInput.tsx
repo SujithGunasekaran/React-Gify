@@ -1,13 +1,13 @@
 import { FC, useState, ChangeEvent, FormEvent } from 'react';
 
 interface SearchInputProps {
-    searchGify: (query: string) => void
+    updateSearchText: (query: string) => void
 }
 
 const SearchInput: FC<SearchInputProps> = (props) => {
 
     // props
-    const { searchGify } = props;
+    const { updateSearchText } = props;
 
     // state
     const [searchValue, setSearchValue] = useState<string>('');
@@ -19,7 +19,7 @@ const SearchInput: FC<SearchInputProps> = (props) => {
 
     const formSubmit = (event: FormEvent) => {
         event.preventDefault();
-        searchGify(searchValue);
+        updateSearchText(searchValue);
     }
 
     return (

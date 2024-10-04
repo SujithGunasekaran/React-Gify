@@ -12,18 +12,18 @@ const GifList: FC<GifListProps> = (props) => {
     const { gifs } = props;
 
     return (
-        <div className='gif-list-container'>
+        <>
             {
                 gifs.map((gif) => (
                     <GifItem
-                        key={gif.id}
+                        key={`${gif.id}_${gif.slug}`}
                         title={gif.title}
                         originalImage={gif.images.original}
                         fixedImage={gif.images.fixed_width}
                     />
                 ))
             }
-        </div>
+        </>
     )
 
 }
