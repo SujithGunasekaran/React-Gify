@@ -8,11 +8,11 @@ interface params {
 export const getGifUrl = (pageType: string, params: params) => {
     const { searchText, offset } = params;
     if (pageType === 'trending') {
-        return `${BASE_URL}/trending?api_key=${GIFY_API_KEY}&limit=${GIF_LIMIT}&offset=${offset}&bundle=clips_grid_picker`;
+        return `${BASE_URL}/trending?api_key=${GIFY_API_KEY}&limit=${GIF_LIMIT}&offset=${offset}&bundle=clips_grid_picker&rating=g`;
     } else if (pageType === 'search') {
-        return `${BASE_URL}/search?api_key=${GIFY_API_KEY}&q=${searchText}&limit=${GIF_LIMIT}&offset=${offset}&bundle=clips_grid_picker`;
+        return `${BASE_URL}/search?api_key=${GIFY_API_KEY}&q=${searchText}&limit=${GIF_LIMIT}&offset=${offset}&bundle=clips_grid_picker&rating=g`;
     } else {
-        return `${BASE_URL}/random?api_key=${GIFY_API_KEY}`;
+        return `${BASE_URL}/random?api_key=${GIFY_API_KEY}&rating=g`;
     }
 }
 

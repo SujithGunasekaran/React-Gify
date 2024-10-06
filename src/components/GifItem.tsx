@@ -1,21 +1,16 @@
-import { FC, useState, useRef } from 'react';
-import { FaPlay, FaPause, FaDownload, FaSpinner } from "react-icons/fa";
+import { FC, useState, useRef, useEffect } from 'react';
+import GifController from './GifController';
 import { downloadFile } from '../utils';
-import { ImageObject } from '../types';
-
-interface GifItemProps {
-    title: string,
-    originalImage: ImageObject,
-    fixedImage: ImageObject,
-}
+import { GifItemProps } from '../types';
+import posterImage from '../assets/pink-color-min.jpg';
 
 const GifItem: FC<GifItemProps> = (props) => {
 
     // props
-    const { fixedImage } = props;
+    const { fixedImage, index, handleGifSelect } = props;
 
     // state
-    const [isPlaying, setIsPlaying] = useState(true);
+    const [isPlaying, setIsPlaying] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [isDownloading, setIsDownloading] = useState(false);
 
@@ -44,35 +39,49 @@ const GifItem: FC<GifItemProps> = (props) => {
         }
     }
 
+    useEffect(() => {
+        const element = videoRef.current;
+        const observer = new IntersectionObserver((entries) => {
+            if (!element) return;
+            if (entries[0].isIntersecting) {
+                element.poster = fixedImage.url;
+            } else {
+                element.poster = posterImage;
+            }
+        }, {
+            threshold: 0.1
+        });
+
+        if (element) {
+            observer.observe(element);
+        }
+
+        return () => {
+            if (element) {
+                observer.unobserve(element);
+            }
+        }
+
+    }, [fixedImage.url, videoRef])
+
     return (
-        <div className='video-player-wrapper'>
+        <div className='grid-item'>
             <video
                 ref={videoRef}
-                width={fixedImage.width}
-                height={fixedImage.height}
-                poster={fixedImage.url}
+                poster={posterImage}
                 className='video'
                 onLoadedData={() => setIsLoading(false)}
-                autoPlay
-                loop
-                muted
             >
                 <source src={fixedImage.mp4} type="video/mp4"></source>
             </video>
-            <div className='video-controller-container'>
-                <div className='video-controller-icon-wrapper' onClick={downloadGif}>
-                    <FaDownload className='icon' />
-                </div>
-                <div className='video-controller-icon-wrapper' onClick={handlePlayOrPause}>
-                    {
-                        isLoading ? <FaSpinner className='icon' /> :
-                            (
-                                isPlaying ? <FaPause className='icon' /> :
-                                    <FaPlay className='icon' />
-                            )
-                    }
-                </div>
-            </div>
+            <GifController
+                isLoading={isLoading}
+                isPlaying={isPlaying}
+                index={index}
+                handleGifSelect={handleGifSelect}
+                downloadGif={downloadGif}
+                handlePlayOrPause={handlePlayOrPause}
+            />
         </div>
     )
 
