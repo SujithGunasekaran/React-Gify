@@ -8,10 +8,7 @@ const GifModal: FC<GifModalProps> = (props) => {
 
     return (
         <div className='gif-modal' onClick={() => handleModal(false)}>
-            <video
-                poster={fixedImage.url}
-                className='video'
-            >
+            <video poster={fixedImage.url} className='video'>
                 <source src={fixedImage.mp4} type="video/mp4"></source>
             </video>
         </div>

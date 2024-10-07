@@ -166,6 +166,18 @@
     backdrop-filter: blur(10px);
 }
 
+.gif-modal .video {
+    width: 420px;
+    height: 420px;
+}
+
+.video-controller-container {
+    display: none;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+
 .skeleton-box {
     position: relative;
     width: 100%;
@@ -177,6 +189,24 @@
 .skeleton-box.video {
     width: 100%;
     height: 100%;
+}
+
+.gif-empty-message-container {
+    margin: 35px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.gif-empty-message-container .image {
+    width: 350px;
+    height: 350px;
+}
+
+.gif-empty-message-container .message {
+    font-size: 15px;
+    padding: 15px 0px;
 }
 
 .skeleton-box::after {
@@ -194,5 +224,12 @@
 @keyframes loading {
     100% {
         transform: translateX(100%);
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .gif-empty-message-container .image {
+        width: 100%;
+        height: 100%;
     }
 }

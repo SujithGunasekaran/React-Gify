@@ -3,6 +3,7 @@ import { FC, useState, useEffect } from 'react';
 import axios from 'axios';
 import SearchInput from './SearchInput';
 import GifList from './GifList';
+import GifEmptyMessage from './GifEmptyMessage';
 import GifGridLoader from './GifGridLoader';
 import { getGifUrl } from '../utils';
 import { GIF_LIMIT, GRID_CARD_LOADER } from '../constants';
@@ -77,6 +78,10 @@ const HomeSearch: FC<HomeSearchProps> = (props) => {
                 <SearchInput
                     updateSearchText={updateSearchText}
                 />
+            }
+            {
+                (gifs.length === 0 && !isLoading) &&
+                <GifEmptyMessage />
             }
             {
                 gifs.length > 0 &&
