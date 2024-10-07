@@ -22,6 +22,7 @@ const HomeSearch: FC<HomeSearchProps> = (props) => {
     const [searchText, setSearchText] = useState<string>('');
     const [currentPage, setCurrentPage] = useState<number>(0);
     const [hasMore, setHasMore] = useState<boolean>(false);
+    const [hasError, setHasError] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const searchGify = async () => {
@@ -30,6 +31,7 @@ const HomeSearch: FC<HomeSearchProps> = (props) => {
             const offset = (currentPage * GIF_LIMIT) + 1;
             const url = getGifUrl(pageType, { searchText, offset });
             const response = await axios.get(url);
+            setHasError(false);
             if (response.data && (pageType !== 'random')) {
                 const { data = [], pagination = {} } = response.data;
                 const totalResultCount = pagination.count + pagination.offset;
@@ -47,6 +49,7 @@ const HomeSearch: FC<HomeSearchProps> = (props) => {
                 setGifs([response.data.data]);
             }
         } catch (error) {
+            setHasError(true);
             console.log('search error', error);
         } finally {
             setIsLoading(false);
@@ -78,6 +81,10 @@ const HomeSearch: FC<HomeSearchProps> = (props) => {
                 <SearchInput
                     updateSearchText={updateSearchText}
                 />
+            }
+            {
+                hasError &&
+                <div className='gify-error-message'>The API limit has been reached. Please return in 1 hour for more access.</div>
             }
             {
                 (gifs.length === 0 && !isLoading) &&

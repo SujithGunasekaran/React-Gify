@@ -67,6 +67,15 @@
     background-color: rgb(40, 39, 39);
 }
 
+.gify-error-message {
+    margin: 20px 0px;
+    padding: 10px;
+    font-size: 14px;
+    color: rgb(228, 2, 2);
+    border-radius: 6px;
+    background-color: rgb(247, 226, 226);
+}
+
 .gif-list-container {
     display: flex;
     gap: 0.5rem;
